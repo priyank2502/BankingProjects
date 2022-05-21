@@ -5,8 +5,8 @@ create table account_details
  account_branch varchar2(10),
  curr_account_balance number,
  rate_of_interest varchar2(5),
-
- FOREIGN KEY (customer_id) REFERENCES account_details(account_number)
+ customer_id number,
+ foreign key (customer_id) references customer_details(customer_id)
 );
 ..........................................................................
 
@@ -25,12 +25,29 @@ create table customer_details
 create table transaction_details
 (
  transaction_id number PRIMARY KEY,
- FOREIGN KEY (account_number) REFERENCES account_details(account_number),
- transaction_date date date NOT NULL;
+ transaction_date date not null,
  transaction_type varchar2(10),
  transaction_amount number,
  account_balance number,
- transaction_narration varchar2(30)
+ transaction_narration varchar2(30),
+ account_number number NOT NULL UNIQUE,
+ foreign key (account_number) references account_details(account_number)
 );
 ..............................................................................
- 
+ insert into customer_details values
+(50001,'Janani','Sector 11, belapur',1234567890,'janani@gmail.com','Janani01','J0123');
+insert into customer_details values
+(50002,'Archana','Sector 15,Nerul',1234567891,'archana@gmail.com','Archana02','A0123');
+insert into customer_details values
+(50003,'Vivek','Sector 50, Seawoods',1234567892,'vivek@gmail.com','Vivek03',
+'V0123');
+insert into customer_details values(50004,'Priya','Sector 7,Khargar',1234567893,'priya@gmail.com','Priya04','P0123');
+.......................................................................
+
+insert into account_details values(100001,'SB','Belapur',40000,'4',50001);
+insert into account_details values(100002,'FD','Nerul',5000,'4',50002);
+insert into account_details values(100003,'PPF','Seawoods',68000,'4',50003);
+insert into account_details values(100004,'SB','Khargar',30000,'4',50004);
+..............................................................................
+insert into transaction_details values(101,'04-DEC-2022','dr',12000,40000,'TRF/101/UPI',100001);
+insert into transaction_details values(102,'18-MAY-2022','cr',5000,68000,'TRF/102/NEFT',	100003);
